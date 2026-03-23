@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 Love Search - Tafuta Mwenzako</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* MAIN LAYOUT */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* SIDEBAR - LEFT */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .user-profile {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+        }
+
+        .user-profile h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .user-profile p {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .invitation-code {
+            background: #f9f9f9;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .invitation-code label {
+            font-size: 12px;
+            color: #999;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: white;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .code-input:hover {
+            background: #f0f0f0;
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 8px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.3s;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .menu-btn {
+            padding: 12px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #667eea;
+            transition: 0.3s;
+        }
+
+        .menu-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .menu-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .logout-btn {
+            border-color: #ff6b6b !important;
+            color: #ff6b6b !important;
+        }
+
+        .logout-btn:hover {
+            background: #ff6b6b !important;
+            color: white !important;
+        }
+
+        /* CENTER - PROFILES */
+        .profiles-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            color: white;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .profile-header {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .profile-info {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .profile-bio {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            padding: 12px 20px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .action-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .action-btn.like {
+            background: white;
+            color: #667eea;
+        }
+
+        .action-btn.like:hover {
+            transform: scale(1.05);
+        }
+
+        .empty-profiles {
+            text-align: center;
+            padding: 50px 20px;
+            color: #999;
+        }
+
+        /* SIDEBAR - RIGHT */
+        .chat-sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            height: fit-content;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .chat-sidebar h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .chat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-item {
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .chat-item:hover {
+            background: #f0f0f0;
+            border-left-color: #667eea;
+        }
+
+        .chat-item.active {
+            background: #667eea;
+            color: white;
+            border-left-color: #764ba2;
+        }
+
+        .chat-name {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .chat-preview {
+            font-size: 12px;
+            opacity: 0.7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        /* MESSAGES */
+        .messages-view {
+            display: none;
+        }
+
+        .messages-view.active {
+            display: flex;
+        }
+
+        .messages-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .messages-header {
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 15px;
+        }
+
+        .messages-body {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .message.own {
+            background: #667eea;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .message.other {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .message-time {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 3px;
+        }
+
+        .messages-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .messages-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .messages-input button {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .messages-input button:hover {
+            background: #764ba2;
+        }
+
+        /* JOIN SECTION */
+        .join-section {
+            display: none;
+            text-align: center;
+        }
+
+        .join-section.active {
+            display: block;
+        }
+
+        .join-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .join-card h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>💕 Love Search</h1>
+            <p>Tafuta mwenzako wako</p>
+        </div>
+
+        <!-- LOGIN MODAL -->
+        <div id="loginModal" class="modal show">
+            <div class="modal-content">
+                <h2>Karibu kwenye Love Search</h2>
+                <div class="form-group">
+                    <label>Jina lako</label>
+                    <input type="text" id="loginName" placeholder="Jina">
+                </div>
+                <div class="form-group">
+                    <label>Umri</label>
+                    <input type="number" id="loginAge" placeholder="Umri" min="18" max="100">
+                </div>
+                <div class="form-group">
+                    <label>Mahali</label>
+                    <input type="text" id="loginLocation" placeholder="Jiji au wilaya">
+                </div>
+                <div class="form-group">
+                    <label>Kuhusu wewe</label>
+                    <textarea id="loginBio" placeholder="Andika kile unataka wajue watu" style="height: 80px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Kwa nini unajoin? (Optional)</label>
+                    <input type="text" id="invitationCode" placeholder="Ingiza code ya kumwalika kwa mtu">
+                </div>
+                <div class="form-buttons">
+                    <button class="btn btn-primary" onclick="register()">Jifungua</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="main-grid">
+            <!-- LEFT SIDEBAR -->
+            <div class="sidebar">
+                <div class="user-profile">
+                    <div class="avatar">👤</div>
+                    <h3 id="profileName">Karibu</h3>
+                    <p id="profileInfo">Unajifungua</p>
+                </div>
+
+                <div class="invitation-code">
+                    <label>📨 Kumwalika Rafiki</label>
+                    <input type="text" class="code-input" id="myCode" readonly>
+                    <button class="copy-btn" onclick="copyCode()">📋 Nakili Code</button>
+                </div>
+
+                <div class="menu">
+                    <button class="menu-btn active" onclick="switchSection('profiles')">🔥 Kuta Watu</button>
+                    <button class="menu-btn" onclick="switchSection('messages')">💬 Ujumbe</button>
+                    <button class="menu-btn" onclick="switchSection('join')">👥 Jifungua Kwa Code</button>
+                    <button class="menu-btn logout-btn" onclick="logout()">🚪 Ondoka</button>
+                </div>
+            </div>
+
+            <!-- CENTER - PROFILES -->
+            <div class="profiles-section" id="profilesSection">
+                <div id="profileCard"></div>
+                <div id="noprofiles" class="empty-profiles" style="display:none;">
+                    <h3>Hakuna watumiaji wengine kwa sasa 😢</h3>
+                    <p>Waliko hadharani!</p>
+                </div>
+            </div>
+
+            <!-- MESSAGES VIEW -->
+            <div class="messages-view" id="messagesView">
+                <div class="messages-container">
+                    <div class="messages-header">
+                        <h3 id="chatTitle">Ujumbe</h3>
+                    </div>
+                    <div class="messages-body" id="messagesBody"></div>
+                    <div class="messages-input">
+                        <input type="text" id="messageInput" placeholder="Andika ujumbe...">
+                        <button onclick="sendMessage()">Tuma</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JOIN SECTION -->
+            <div class="join-section" id="joinSection">
+                <div class="join-card">
+                    <h2>Jifungua Kwa Code</h2>
+                    <div class="form-group">
+                        <input type="text" id="joinCode" placeholder="Ingiza code ya kumwalika">
+                    </div>
+                    <button class="btn btn-primary" onclick="joinWithCode()">Jifungua</button>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDEBAR - CHATS -->
+            <div class="chat-sidebar">
+                <h3>💬 Ujumbe</h3>
+                <div class="chat-list" id="chatList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATA
+        let currentUser = null;
+        let users = {};
+        let messages = {};
+        let currentChat = null;
+
+        // LOAD DATA
+        function loadData() {
+            const stored = localStorage.getItem('loveSearchData');
+            if(stored) {
+                const data = JSON.parse(stored);
+                users = data.users || {};
+                messages = data.messages || {};
+            }
+        }
+
+        // SAVE DATA
+        function saveData() {
+            localStorage.setItem('loveSearchData', JSON.stringify({
+                users: users,
+                messages: messages
+            }));
+        }
+
+        // GENERATE CODE
+        function generateCode() {
+            return 'LS' + Math.random().toString(36).substr(2, 8).toUpperCase();
+        }
+
+        // REGISTER
+        function register() {
+            const name = document.getElementById('loginName').value.trim();
+            const age = document.getElementById('loginAge').value;
+            const location = document.getElementById('loginLocation').value.trim();
+            const bio = document.getElementById('loginBio').value.trim();
+            const invCode = document.getElementById('invitationCode').value.trim();
+
+            if(!name || !age || !location || !bio) {
+                alert('Tafadhali jaza sehemu zote');
+                return;
+            }
+
+            if(age < 18) {
+                alert('Lazima uwe na umri wa zaidi ya 18');
+                return;
+            }
+
+            loadData();
+
+            if(users[name]) {
+                alert('Jina hili tayari linastudiwa');
+                return;
+            }
+
+            currentUser = {
+                id: Date.now(),
+                name: name,
+                age: age,
+                location: location,
+                bio: bio,
+                code: generateCode(),
+                invitedBy: invCode || 'none',
+                likes: [],
+                likedBy: [],
+                joinedAt: new Date().toISOString()
+            };
+
+            users[name] = currentUser;
+            saveData();
+
+            document.getElementById('loginModal').classList.remove('show');
+            updateUI();
+            loadProfiles();
+        }
+
+        // UPDATE UI
+        function updateUI() {
+            if(!currentUser) return;
+            
+            document.getElementById('profileName').textContent = currentUser.name + ' (' + currentUser.age + ')';
+            document.getElementById('profileInfo').textContent = currentUser.location;
+            document.getElementById('myCode').value = currentUser.code;
+            loadChatList();
+        }
+
+        // COPY CODE
+        function copyCode() {
+            const code = document.getElementById('myCode').value;
+            navigator.clipboard.writeText(code);
+            alert('Code ilinalikiwa: ' + code);
+        }
+
+        // SWITCH SECTION
+        function switchSection(section) {
+            document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('profilesSection').style.display = 
+                section === 'profiles' ? 'block' : 'none';
+            document.getElementById('messagesView').classList.remove('active');
+            document.getElementById('joinSection').classList.remove('active');
+
+            if(section === 'messages') {
+                document.getElementById('messagesView').classList.add('active');
+            } else if(section === 'join') {
+                document.getElementById('joinSection').classList.add('active');
+            }
+        }
+
+        // LOAD PROFILES
+        function loadProfiles() {
+            loadData();
+            const profileCard = document.getElementById('profileCard');
+            profileCard.innerHTML = '';
+
+            const others = Object.values(users).filter(u => u.name !== currentUser.name);
+
+            if(others.length === 0) {
+                document.getElementById('noprofiles').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('noprofiles').style.display = 'none';
+
+            const profile = others[Math.floor(Math.random() * others.length)];
+            const isLiked = currentUser.likes.includes(profile.name);
+
+            profileCard.innerHTML = `
+                <div class="profile-card">
+                    <div>
+                        <div class="profile-header">❤️ ${profile.name}</div>
+                        <div class="profile-info">${profile.age} umri • ${profile.location}</div>
+                        <div class="profile-bio">"${profile.bio}"</div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="action-btn" onclick="skipProfile()">⏭️ Ruka</button>
+                        <button class="action-btn like ${isLiked ? 'liked' : ''}" onclick="likeProfile('${profile.name}')">${isLiked ? '💔 Ulijamkupenda' : '❤️ Mpenda'}</button>
+                        <button class="action-btn" onclick="startChat('${profile.name}')">💬 Chat</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // LIKE PROFILE
+        function likeProfile(name) {
+            if(!currentUser.likes.includes(name)) {
+                currentUser.likes.push(name);
+                users[currentUser.name] = currentUser;
+                saveData();
+                alert('Ummpenda ' + name + ' 💕');
+            }
+            loadProfiles();
+        }
+
+        // SKIP PROFILE
+        function skipProfile() {
+            loadProfiles();
+        }
+
+        // START CHAT
+        function startChat(name) {
+            currentChat = name;
+            if(!messages[currentChat]) {
+                messages[currentChat] = [];
+            }
+            saveData();
+            updateChatView();
+            loadChatList();
+        }
+
+        // UPDATE CHAT VIEW
+        function updateChatView() {
+            if(!currentChat) return;
+
+            const chatUser = users[currentChat];
+            document.getElementById('chatTitle').textContent = chatUser.name;
+            document.getElementById('messagesBody').innerHTML = '';
+
+            const chatMessages = messages[currentChat] || [];
+
+            chatMessages.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = 'message' + (msg.sender === currentUser.name ? ' own' : ' other');
+                div.innerHTML = `
+                    <div>${msg.text}</div>
+                    <div class="message-time">${new Date(msg.time).toLocaleTimeString('sw-TZ')}</div>
+                `;
+                document.getElementById('messagesBody').appendChild(div);
+            });
+
+            document.getElementById('messagesBody').scrollTop = 
+                document.getElementById('messagesBody').scrollHeight;
+        }
+
+        // SEND MESSAGE
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+
+            if(!text || !currentChat) return;
+
+            if(!messages[currentChat]) {
+                messages[currentChat] = [];
+            }
+
+            messages[currentChat].push({
+                sender: currentUser.name,
+                text: text,
+                time: new Date().toISOString()
+            });
+
+            saveData();
+            input.value = '';
+            updateChatView();
+            loadChatList();
+        }
+
+        // LOAD CHAT LIST
+        function loadChatList() {
+            const chatList = document.getElementById('chatList');
+            chatList.innerHTML = '';
+
+            Object.keys(messages).forEach(name => {
+                if(messages[name].length > 0) {
+                    const lastMsg = messages[name][messages[name].length - 1];
+                    const div = document.createElement('div');
+                    div.className = 'chat-item' + (currentChat === name ? ' active' : '');
+                    div.innerHTML = `
+                        <div class="chat-name">${name}</div>
+                        <div class="chat-preview">${lastMsg.text}</div>
+                    `;
+                    div.onclick = () => {
+                        currentChat = name;
+                        updateChatView();
+                        loadChatList();
+                        switch`*
